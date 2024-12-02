@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.IngSoftware.model.Cliente;
 import com.example.IngSoftware.services.ClienteService;
 @RestController
-@RequestMapping("/api/clientes") // Ruta base para los endpoints
+@RequestMapping("/api/clientes")// Ruta base para los endpoints
 public class ClienteController {
 
     @Autowired
