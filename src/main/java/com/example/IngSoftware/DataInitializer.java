@@ -1,6 +1,8 @@
 package com.example.IngSoftware;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import com.example.IngSoftware.model.Cliente;
@@ -13,8 +15,10 @@ public class DataInitializer implements CommandLineRunner {
 
     private final ClienteRepository clienteRepository;
     private final ProductoRepository productoRepository;
+    
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
-    // Inyectamos el repositorio para interactuar con la base de datos
     public DataInitializer(ClienteRepository clienteRepository, ProductoRepository productoRepository) {
         this.clienteRepository = clienteRepository;
         this.productoRepository = productoRepository;
@@ -22,6 +26,9 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        clienteRepository.deleteAll();
+
+        jdbcTemplate.execute("ALTER SEQUENCE cliente_id_seq RESTART WITH 1");
         // Verificar si ya existen clientes en la base de datos
         if (clienteRepository.count() == 0) {
             // Crear clientes si no existen
@@ -45,6 +52,9 @@ public class DataInitializer implements CommandLineRunner {
         //
         // Borrar todos los productos antes de agregar los nuevos
         productoRepository.deleteAll();
+
+        // Reiniciar la secuencia de los productos (si estás usando PostgreSQL)
+        jdbcTemplate.execute("ALTER SEQUENCE producto_id_seq RESTART WITH 1");
 
         if (productoRepository.count() == 0) {
             // Crear productos iniciales
