@@ -2,7 +2,7 @@ package com.example.IngSoftware.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.IngSoftware.model.Factura;
@@ -60,6 +60,17 @@ public class FacturaController {
             @RequestParam("fin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
         List<Factura> facturas = facturaService.filtrarPorFechas(inicio, fin);
         return ResponseEntity.ok(facturas);
+    }
+
+    //Endpoint para descargar como PDF (Prueba Demo)
+    @GetMapping("/{id}/descargar-pdf")
+    public ResponseEntity<byte[]> descargarFacturaPDF(@PathVariable Long id) {
+        byte[] pdf = facturaService.generarFacturaPDF(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_PDF);
+        headers.setContentDisposition(ContentDisposition.builder("attachment")
+                .filename("factura_" + id + ".pdf").build());
+        return new ResponseEntity<>(pdf, headers, HttpStatus.OK);
     }
 
 }
