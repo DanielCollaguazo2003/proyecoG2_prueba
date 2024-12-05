@@ -1,12 +1,14 @@
 package com.example.IngSoftware.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.IngSoftware.model.Factura;
 import com.example.IngSoftware.services.FacturaService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -50,4 +52,14 @@ public class FacturaController {
         double impuesto = facturaService.calcularImpuesto(id);
         return ResponseEntity.ok(impuesto);
     }
+
+    //Endpoint para listar las facturas por fechas
+    @GetMapping("/filtrar-por-fechas")
+    public ResponseEntity<List<Factura>> filtrarPorFechas(
+            @RequestParam("inicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate inicio,
+            @RequestParam("fin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fin) {
+        List<Factura> facturas = facturaService.filtrarPorFechas(inicio, fin);
+        return ResponseEntity.ok(facturas);
+    }
+
 }

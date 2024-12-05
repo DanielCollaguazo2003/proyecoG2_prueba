@@ -1,5 +1,6 @@
 package com.example.IngSoftware.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,5 +88,9 @@ public class FacturaService {
         Factura factura = buscarPorId(id);
         double impuesto = calcularImpuesto(id);
         return factura.getMonto() + impuesto;
+    }
+
+    public List<Factura> filtrarPorFechas(LocalDate inicio, LocalDate fin) {
+        return facturaRepository.findByFechaEmisionBetween(inicio, fin);
     }
 }
