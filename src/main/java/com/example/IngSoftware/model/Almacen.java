@@ -16,4 +16,6 @@ public class Almacen {
     private Long id;
     private String ubicacion;
     private String tipo;
+
+    
 }
