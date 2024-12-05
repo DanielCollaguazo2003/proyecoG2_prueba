@@ -30,4 +30,3 @@ public class Venta {
     @OneToMany(mappedBy = "venta")
     private List<Factura> facturas;
 }
-
