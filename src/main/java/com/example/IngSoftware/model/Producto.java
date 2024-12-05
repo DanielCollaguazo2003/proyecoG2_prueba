@@ -18,6 +18,17 @@ public class Producto {
     private Double precio;
     private int stock;
 
-    // Métodos de negocio pueden ser añadidos como actualizarStock(), etc.
+    // Métodos
+    public void actualizarStock(int nuevoStock) {
+        this.stock = nuevoStock;
+    }
+
+    public boolean consultarDisponibilidad(int cantidad) {
+        return this.stock >= cantidad;
+    }
+
+    public void aplicarDescuento(double porcentaje) {
+        this.precio -= this.precio * (porcentaje / 100);
+    }
 }
 
